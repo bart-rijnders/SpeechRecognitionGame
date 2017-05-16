@@ -1,7 +1,7 @@
 import json
 
 f = open('wordlist.txt', 'r')
-words = [line.rstrip() for line in f if len(line) > 2]
+words = [line.rstrip() for line in f if len(line) > 4]
 
 def write_words(filename, amount):
    file = open(filename, 'w+')
