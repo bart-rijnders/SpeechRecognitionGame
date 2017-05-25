@@ -2,26 +2,17 @@ class VoiceGame extends Game {
 
 	constructor(canvas, words) {
 		super(canvas, words);
-		const speechRecognizer = VoiceGame.createVoiceRecognizer();
-		if (!speechRecognizer) {
-			alert("Your web browser does not support voice recognition, please use an up to date version of Google Chrome");
-		}
-		/*if (!('webkitSpeechRecognition' in window)) {
-			// If not supported. In the game choice menu this should be grayed out.
-			alert("Your web browser does not support voice recognition, please use an up to date version of Google Chrome");
-		}*/
-		//this.recognition = VoiceGame.createVoiceRecognizer();
-		this.recognition = speechRecognizer;
-		this.recognition.onstart = () => console.log('Starting speech recognition.');
-		this.recognition.onresult = this.onSpeechResult.bind(this);
-		this.recognition.onerror = err => console.log(err);
-		this.recognition.onend = (e) => this.onSpeechRecognitionEnded.bind(this);
-
+		this.recognition = this.createVoiceRecognizer();
 		this.textBar = new Text(this.ctx, window.innerWidth / 2, window.innerHeight -30, '', { color: 'red' });
 	}
 
 	// Override
 	run() {
+		if (!this.recognition) {
+			alert("Your web browser does not support voice recognition, please use an up to date version of Google Chrome");
+			this.end();
+		}
+
 		super.run();
 		this.recognition.start();
 	}
@@ -56,7 +47,7 @@ class VoiceGame extends Game {
 		this.recognition.start();
 	}
 
-	static createVoiceRecognizer() {
+	createVoiceRecognizer() {
 		const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition || window.mozSpeechRecognition || window.msSpeechRecognition;
 		if (!SpeechRecognition) return null;
 		const rec = new SpeechRecognition();
@@ -64,6 +55,11 @@ class VoiceGame extends Game {
 		rec.interimResults = true;
 		rec.maxAlternatives = 5;
 		rec.lang = 'en-US';
+
+		rec.onstart = () => console.log('Starting speech recognition.');
+		rec.onresult = this.onSpeechResult.bind(this);
+		rec.onerror = err => console.log(err);
+		rec.onend = (e) => this.onSpeechRecognitionEnded.bind(this);
 		return rec;
 	}
 

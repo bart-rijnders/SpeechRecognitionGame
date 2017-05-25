@@ -33,6 +33,9 @@ class TypingGame extends Game {
 		} else if (key === 'Backspace')
 			this.current = this.current.substring(0, this.current.length - 1);
 		this.textBar.text = this.current;
+
+		event.preventDefault();
+		return false;
 	}
 
 	// Override
