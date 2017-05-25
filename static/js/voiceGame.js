@@ -2,11 +2,16 @@ class VoiceGame extends Game {
 
 	constructor(canvas, words) {
 		super(canvas, words);
-		if (!('webkitSpeechRecognition' in window)) {
-			// If not supported. In the game choice menu this should be grayed out.
+		const speechRecognizer = VoiceGame.createVoiceRecognizer();
+		if (!speechRecognizer) {
 			alert("Your web browser does not support voice recognition, please use an up to date version of Google Chrome");
 		}
-		this.recognition = VoiceGame.createVoiceRecognizer();
+		/*if (!('webkitSpeechRecognition' in window)) {
+			// If not supported. In the game choice menu this should be grayed out.
+			alert("Your web browser does not support voice recognition, please use an up to date version of Google Chrome");
+		}*/
+		//this.recognition = VoiceGame.createVoiceRecognizer();
+		this.recognition = speechRecognizer;
 		this.recognition.onstart = () => console.log('Starting speech recognition.');
 		this.recognition.onresult = this.onSpeechResult.bind(this);
 		this.recognition.onerror = err => console.log(err);
@@ -52,7 +57,9 @@ class VoiceGame extends Game {
 	}
 
 	static createVoiceRecognizer() {
-		const rec = new webkitSpeechRecognition();
+		const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition || window.mozSpeechRecognition || window.msSpeechRecognition;
+		if (!SpeechRecognition) return null;
+		const rec = new SpeechRecognition();
 		rec.continuous = true;
 		rec.interimResults = true;
 		rec.maxAlternatives = 5;
