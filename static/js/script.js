@@ -53,18 +53,7 @@ function startGame(gameType) {
 
 // Initialized and runs the game on document load
 document.addEventListener('DOMContentLoaded', (event) => {
-   /*if (!('webkitSpeechRecognition' in window))
-   alert("Your web browser does not support voice recognition, please use an up to date version of Google Chrome");
-   else {*/
    $('#voiceGame').click(() => startGame(VoiceGame));
+   $('#typingGame').click(() => startGame(TypingGame));
    $('#backButton').click(showGameSelect);
-
-   /*$('#endscreen').hide();
-   const canvas = setupCanvas();
-   game = new VoiceGame(canvas, words);
-   game.ended(o => {
-      showEndscreen();
-   });
-   game.run();*/
-
-})
+});
