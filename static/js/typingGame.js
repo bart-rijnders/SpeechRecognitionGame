@@ -7,7 +7,7 @@ class TypingGame extends Game {
 		super(canvas, words);
 		this.current = '';
 		this.textBar = new Text(this.ctx, window.innerWidth / 2, window.innerHeight -30, '', { color: 'red' });
-		canvas.addEventListener('keydown', this.handleKeyPress.bind(this));
+		document.addEventListener('keydown', this.handleKeyPress.bind(this));
 	}
 
 	// Override
@@ -16,15 +16,22 @@ class TypingGame extends Game {
 		super.foundWord(word);
 	}
 
+	// Override
+	end() {
+		document.removeEventListener('keydown', this.handleKeyPress.bind(this));
+		super.end();
+	}
+
 	handleKeyPress(event) {
 		const key = event.key;
 		if(VALID_CHARACTERS.indexOf(key) >= 0)
 			this.current += key;
-		else if (key == 'Enter') {
+		else if (key === 'Enter') {
 			const lower = this.current.toLowerCase();
 			this.current = '';
 			this.foundWord(lower);
-		}
+		} else if (key === 'Backspace')
+			this.current = this.current.substring(0, this.current.length - 1);
 		this.textBar.text = this.current;
 	}
 
