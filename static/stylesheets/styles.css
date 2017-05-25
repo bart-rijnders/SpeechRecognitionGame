@@ -5,8 +5,15 @@ body {
 
 /* Game select */
 #gameSelect #options {
-	margin-top: 30%;
 	text-align: center;
+
+	/* Vertical centering */
+	position: absolute;
+	top: 50%;
+	/* margin-top: (half of content height) */
+	margin-top: -70px;
+	left: 0;
+	width: 100%;
 }
 
 #gameSelect #options button {
@@ -15,8 +22,15 @@ body {
 
 /* End Screen */
 #endScreen {
-	margin-top: 30%;
 	text-align: center;
+
+	/* Vertical centering */
+	position: absolute;
+	top: 50%;
+	/* margin-top: (half of content height) */
+	margin-top: -140px;
+	left: 0;
+	width: 100%;
 }
 
 #endScreen p {
