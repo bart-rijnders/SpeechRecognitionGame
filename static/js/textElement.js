@@ -1,22 +1,22 @@
-class TextElement {
-	constructor(text, speed, ctx, game) {
-		this.x = Math.floor(Math.random() * (window.innerWidth - 100)) + 50;
-		this.y = -20;
-		this.text = text;
+class TextElement extends Text {
+	constructor(ctx, text, speed, game) {
+		const x = Math.floor(Math.random() * (window.innerWidth - 100)) + 50;
+		const y = -20;
+		super(ctx, x, y, text);
 		this.speed = speed;
-		this.ctx = ctx;
 		this.game = game;
+		this.outOfBoundsListeners = [];
 	}
 
 	update() {
 		if (this.y > window.innerHeight)
-			this.game.end();
+			//this.game.end();
+			this.outOfBoundsListeners.forEach(x => x());
 		else
 			this.y += this.speed;
 	}
 
-	draw() {
-		this.ctx.fillText(this.text, this.x, this.y);
+	outOfBounds(func) {
+		this.outOfBoundsListeners.push(func);
 	}
-
 }

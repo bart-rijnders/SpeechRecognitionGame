@@ -14,9 +14,10 @@ class Game {
       this.gameSpeed = 1;
       this.lastSpawned = new Date().getTime();
       this.score = 0;
-      this.textBar = new TextBar(this.ctx);
-      this.scoreCounter = new ScoreCounter(this.ctx);
+      this.scoreCounter = new Text(this.ctx, 20, 20, '', { color: 'red' });
       this.running = true;
+      this.gameEndListeners = [];
+      this._loop;
    }
 
    spawn() {
@@ -24,19 +25,26 @@ class Game {
       if (time >= this.lastSpawned + SPAWN_INTERVAL) {
          this.lastSpawned = time;
          const newWord = this.words[Math.floor(Math.random() * this.words.length)]
-         const element = new TextElement(newWord, this.gameSpeed, this.ctx, this);
+         const element = new TextElement(this.ctx, newWord, this.gameSpeed, this);
+         element.outOfBounds(() => {
+            this.end();
+         });
          this.elements.push(element);
       }
    }
 
    end() {
       this.running = false;
+      clearInterval(this._loop);
+      const result = {
+         win: false,
+         score: this.score
+      };
+      this.gameEndListeners.forEach(x => x(result));
    }
 
    foundWord(word) {
-      console.log('Got word:', word);
       if (!this.running) return;
-      this.textBar.text = word;
       const index = this.elements.findIndex((e) => e.text == word);
       if (index >= 0) {
          this.elements.splice(index, 1);
@@ -52,27 +60,30 @@ class Game {
       if (this.score % SPEEDUP_INTERVAL == 0 && this.score > 0) {
          this.gameSpeed += SPEED_INCREASE;
       }
-      this.scoreCounter.update(this.score);
+      this.scoreCounter.score = this.score;
    }
 
    draw() {
-      this.ctx.clearRect(0, 0, canvas.width, canvas.height);
+      this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
       if (!this.running) {
-         this.ctx.font = '24px Arial';
+         /*this.ctx.font = '24px Arial';
          this.fillStyle = 'red';
          this.ctx.fillText(`Game Over! You got ${this.score} points.`, window.innerWidth / 2, window.innerHeight / 2);
+         */
       } else {
          this.elements.forEach(x => x.draw());
-         this.textBar.draw();
          this.scoreCounter.draw();
       }
    }
 
+   ended(func) {
+      this.gameEndListeners.push(func);
+   }
+
    run() {
-      setInterval(() => {
+      this._loop = setInterval(() => {
            this.update();
            this.draw();
       }, UPDATE_INTERVAL / FPS);
-      //voiceRecognizer.start();
    }
 }
