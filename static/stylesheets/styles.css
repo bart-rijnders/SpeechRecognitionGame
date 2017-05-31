@@ -3,6 +3,10 @@ body {
 	margin: 0;
 }
 
+canvas {
+	pointer-events: none;
+}
+
 /* Game select */
 #gameSelect #options {
 	text-align: center;

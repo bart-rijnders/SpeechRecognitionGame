@@ -65,15 +65,9 @@ class Game {
 
    draw() {
       this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-      if (!this.running) {
-         /*this.ctx.font = '24px Arial';
-         this.fillStyle = 'red';
-         this.ctx.fillText(`Game Over! You got ${this.score} points.`, window.innerWidth / 2, window.innerHeight / 2);
-         */
-      } else {
-         this.elements.forEach(x => x.draw());
-         this.scoreCounter.draw();
-      }
+      if (!this.running) return;
+      this.elements.forEach(x => x.draw());
+      this.scoreCounter.draw();
    }
 
    ended(func) {
