@@ -14,7 +14,7 @@ class Game {
       this.gameSpeed = 1;
       this.lastSpawned = new Date().getTime();
       this.score = 0;
-      this.scoreCounter = new Text(this.ctx, 20, 20, '', { color: 'red' });
+      this.scoreCounter = new Text(this.ctx, 20, 20, '0', { color: 'red' });
       this.running = true;
       this.gameEndListeners = [];
       this._loop;
@@ -60,7 +60,7 @@ class Game {
       if (this.score % SPEEDUP_INTERVAL == 0 && this.score > 0) {
          this.gameSpeed += SPEED_INCREASE;
       }
-      this.scoreCounter.score = this.score;
+      this.scoreCounter.text = this.score;
    }
 
    draw() {
