@@ -26,7 +26,7 @@ class TypingGame extends Game {
 		const key = event.key;
 		if(VALID_CHARACTERS.indexOf(key) >= 0)
 			this.current += key;
-		else if (key === 'Enter') {
+		else if (key === 'Enter' || key === ' ') {
 			const lower = this.current.toLowerCase();
 			this.current = '';
 			this.foundWord(lower);
