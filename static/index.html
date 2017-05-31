@@ -1,8 +1,33 @@
 <html>
-    <head>
-        <script src="script.js"></script>
-    </head>
-    <body>
-        <canvas id='canvas'></canvas>
-    </body>
+<head>
+   <link rel="stylesheet" href="stylesheets/styles.css">
+</head>
+<body>
+   <div id="endScreen" style="display: none;">
+      <p>Game over! You got <span id="score"></span> points.</p>
+      <button id="backButton" class="button">Back</button>
+   </div>
+   <div id="gameSelect">
+      <div id="options">
+         <button id="voiceGame" class="button">Voice</button>
+         <button id="typingGame" class="button">Type</button>
+      </div>
+   </div>
+   <canvas id='game' style="display: none;" tabindex="1"></canvas>
+</body>
+
+<script
+  src="https://code.jquery.com/jquery-3.2.1.min.js"
+  integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+  crossorigin="anonymous"></script>
+
+<!-- Components -->
+<script src="js/text.js"></script>
+<script src="js/game.js"></script>
+<script src="js/voiceGame.js"></script>
+<script src="js/typingGame.js"></script>
+<script src="js/textElement.js"></script>
+
+<!-- Main script -->
+<script src="js/script.js"></script>
 </html>
